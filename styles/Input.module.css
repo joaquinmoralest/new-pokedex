@@ -1,0 +1,23 @@
+.form input {
+  width: 250px;
+  font-size: 1rem;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 24px;
+}
+
+.form button {
+  border: none;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 8px 15px;
+  border-radius: 24px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: .15s ease-in-out;
+}
+
+.form button:hover {
+  color: #ffffff;
+  background-color: #ff1c1b;
+}
