@@ -1,9 +1,9 @@
 import styles from '@/styles/Home.module.css'
-import Layout from '@/components/Layout'
+import Layout from '../components/Layout'
 import { useState } from 'react'
 import { getPokemon } from '@/services'
-import Card from '@/components/Card'
-import Input from '@/components/Input'
+import Card from '../components/Card'
+import Input from '../components/Input'
 
 export default function Home() {
   const [pokemon, setPokemon] = useState('')
@@ -28,23 +28,21 @@ export default function Home() {
   
   return (
     <Layout>
-      <>
-        <Input onChange={handleChange} onSubmit={handleSubmit} />
+      <Input onChange={handleChange} onSubmit={handleSubmit} />
 
-        {data && (
-          <>
-            <Card 
-              sprite={data.sprites.other.dream_world.front_default 
-                ? data.sprites.other.dream_world.front_default 
-                : data.sprites.front_default} 
-              name={data.name} 
-              pokeId={data.id}
-              stats={data.stats} 
-              isLoading={isLoading}
-            />
-          </> 
-        )}
-      </>
+      {data && (
+        <>
+          <Card 
+            sprite={data.sprites.other.dream_world.front_default 
+              ? data.sprites.other.dream_world.front_default 
+              : data.sprites.front_default} 
+            name={data.name} 
+            pokeId={data.id}
+            stats={data.stats} 
+            isLoading={isLoading}
+          />
+        </> 
+      )}
     </Layout>
   )
 }
