@@ -14,9 +14,6 @@ function Navbar() {
             <Link href="/">Inicio</Link>
           </li>
           <li>
-            <Link href="/pokemones">Pokemones</Link>
-          </li>
-          <li>
             <Link href="/blog/hello-world">Contacto</Link>
           </li>
         </ul>

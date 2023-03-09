@@ -1,6 +1,7 @@
 .spinner {
   margin: 20px 0 40px 0;
   animation: rotate-center 0.6s ease-in-out both;
+  animation-iteration-count: infinite;
 }
 
 @keyframes rotate-center {

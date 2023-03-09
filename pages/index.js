@@ -1,15 +1,18 @@
 import styles from '@/styles/Home.module.css'
 import Layout from '../components/Layout'
-import { useEffect, useState } from 'react'
+import React, { Suspense, lazy, useEffect, useState } from 'react'
 import { getAllPokemon, getPokemon } from '@/services'
 import Card from '../components/Card'
 import Input from '../components/Input'
+import Spinner from '@/components/Spinner'
 
 export default function Home() {
   const [pokemonsList, setPokemonsList] = useState([])
   const [pokemon, setPokemon] = useState('')
   const [data, setData] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  const LazyCards = React.lazy(() => import('../components/Card'))
 
   async function fetchData() {
     const data = await getAllPokemon()
@@ -70,22 +73,23 @@ export default function Home() {
       )}
 
       <div className={styles.allResults}>
-        {pokemonsList && (
-          pokemonsList.map((pokemon) => {
-            return (
-              <Card
-                key={pokemon?.id} 
-                sprite={pokemon?.sprites?.other?.dream_world?.front_default 
-                  ? pokemon.sprites?.other?.dream_world?.front_default 
-                  : pokemon.sprites?.front_default} 
-                name={pokemon?.name} 
-                pokeId={pokemon?.id}
-                stats={pokemon?.stats} 
-                isLoading={isLoading}
-              />
-            )
-          })
-        )}
+        <Suspense fallback={<Spinner />}>
+          {pokemonsList && (
+            pokemonsList.map((pokemon) => {
+              return (
+                <LazyCards
+                  key={pokemon?.id} 
+                  sprite={pokemon?.sprites?.other?.dream_world?.front_default 
+                    ? pokemon.sprites?.other?.dream_world?.front_default 
+                    : pokemon.sprites?.front_default} 
+                  name={pokemon?.name} 
+                  pokeId={pokemon?.id}
+                  stats={pokemon?.stats} 
+                />
+              )
+            })
+          )}
+        </Suspense>
       </div>
     </Layout>
   )
