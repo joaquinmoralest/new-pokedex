@@ -94,6 +94,7 @@ export default function Home() {
 
       <div className={styles.allResults}>
         {pokemonsList?.map((pokemon) => {
+          console.log(pokemon)
           return (
             <Card
               key={pokemon?.id} 
@@ -108,8 +109,10 @@ export default function Home() {
           )
         })}
 
-        <button onClick={handlePrevPage}>Anterior</button>
-        <button onClick={handleNextPage}>Siguiente</button>
+        <div className={styles.pagination}>
+          <button onClick={handlePrevPage}>Anterior</button>
+          <button onClick={handleNextPage}>Siguiente</button>
+        </div>
       </div>
     </Layout>
   )
