@@ -1,6 +1,6 @@
 import styles from '@/styles/Home.module.css'
 import Layout from '../components/Layout'
-import React, { Suspense, lazy, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getAllPokemon, getPokemon } from '@/services'
 import Card from '../components/Card'
 import Input from '../components/Input'
@@ -11,9 +11,8 @@ export default function Home() {
   const [pokemon, setPokemon] = useState('')
   const [data, setData] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
   const [page, setPage] = useState(0)
-
-  const LazyCards = React.lazy(() => import('../components/Card'))
 
   async function fetchData() {
     const data = await getAllPokemon(20, page)
@@ -39,7 +38,13 @@ export default function Home() {
 
     if (!['', undefined, null].includes(pokemon)) {
       let res = await getPokemon(pokemon)
-      setData(res)
+      
+      if (res) {
+        setData(res)
+        setError(false)
+      } else {
+        setError(true)
+      }
     }
 
     setIsLoading(false)
@@ -71,16 +76,18 @@ export default function Home() {
         <>
           {isLoading 
             ? <Spinner />
-            : <Card 
-                sprite={data.sprites.other.dream_world.front_default 
-                  ? data.sprites.other.dream_world.front_default 
-                  : data.sprites.front_default} 
-                name={data.name} 
-                pokeId={data.id}
-                stats={data.stats} 
-                types={data.types}
-                isLoading={isLoading}
-              />
+            : !error 
+              ? <Card 
+                  sprite={data.sprites.other.dream_world.front_default 
+                    ? data.sprites.other.dream_world.front_default 
+                    : data.sprites.front_default} 
+                  name={data.name} 
+                  pokeId={data.id}
+                  stats={data.stats} 
+                  types={data.types}
+                  isLoading={isLoading}
+                />
+              : <p>El pokemon buscado no existe</p>
           }
         </> 
       )}

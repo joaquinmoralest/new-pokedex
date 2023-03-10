@@ -1,8 +1,13 @@
 export async function getPokemon(pokemon) {
-  const res = await fetch('https://pokeapi.co/api/v2/pokemon/' + `${pokemon}`)
-  const data = await res.json()
-  
-  return data
+  try {
+    const res = await fetch('https://pokeapi.co/api/v2/pokemon/' + `${pokemon}`)
+    const data = await res.json()
+    
+    return data
+  }
+  catch(error) {
+    console.log(error)
+  }
 }
 
 export async function getAllPokemon(limit, page) {

@@ -23,8 +23,6 @@ function Card({sprite, name, pokeId, stats, types, isLoading}) {
     types[0].type.name === 'dark' ? styles.dark : 
     types[0].type.name === 'fairy' && styles.fairy 
 
-    console.log(types[0].type.name)
-
   return (
     <div className={`${styles.card} ${background}`}>
       <div className={styles.cardHeader}>
