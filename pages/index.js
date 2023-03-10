@@ -67,6 +67,7 @@ export default function Home() {
             name={data.name} 
             pokeId={data.id}
             stats={data.stats} 
+            types={data.types}
             isLoading={isLoading}
           />
         </> 
@@ -85,6 +86,7 @@ export default function Home() {
                   name={pokemon?.name} 
                   pokeId={pokemon?.id}
                   stats={pokemon?.stats} 
+                  types={pokemon?.types}
                 />
               )
             })
