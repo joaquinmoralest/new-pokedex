@@ -3,8 +3,30 @@ import styles from 'styles/Card.module.css'
 import Spinner from './Spinner'
 
 function Card({sprite, name, pokeId, stats, types, isLoading}) {
+  const background = 
+    types[0].type.name === 'normal' ? styles.normal : 
+    types[0].type.name === 'fighting' ? styles.fighting : 
+    types[0].type.name === 'flying' ? styles.flying : 
+    types[0].type.name === 'poison' ? styles.poison : 
+    types[0].type.name === 'ground' ? styles.ground : 
+    types[0].type.name === 'rock' ? styles.rock : 
+    types[0].type.name === 'bug' ? styles.bug : 
+    types[0].type.name === 'ghost' ? styles.ghost : 
+    types[0].type.name === 'steel' ? styles.steel : 
+    types[0].type.name === 'fire' ? styles.fire : 
+    types[0].type.name === 'water' ? styles.water : 
+    types[0].type.name === 'grass' ? styles.grass : 
+    types[0].type.name === 'electric' ? styles.electric : 
+    types[0].type.name === 'psychic' ? styles.psychic : 
+    types[0].type.name === 'ice' ? styles.ice : 
+    types[0].type.name === 'dragon' ? styles.dragon : 
+    types[0].type.name === 'dark' ? styles.dark : 
+    types[0].type.name === 'fairy' && styles.fairy 
+
+    console.log(types[0].type.name)
+
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} ${background}`}>
       <div className={styles.cardHeader}>
         {isLoading 
           ? <Spinner />

@@ -11,11 +11,12 @@ export default function Home() {
   const [pokemon, setPokemon] = useState('')
   const [data, setData] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [page, setPage] = useState(0)
 
   const LazyCards = React.lazy(() => import('../components/Card'))
 
   async function fetchData() {
-    const data = await getAllPokemon()
+    const data = await getAllPokemon(20, page)
     const {results} = data
 
     const pokemonFullInfo = await Promise.all(results.map(async (pokemon) => {
@@ -48,9 +49,17 @@ export default function Home() {
     setPokemon(e.target.value)
   }
 
+  function handleNextPage() {
+    setPage(page => page + 1)
+  }
+
+  function handlePrevPage() {
+    setPage(page => page - 1)
+  }
+
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [page])
 
   // console.log(pokemonsList)
   
@@ -60,38 +69,40 @@ export default function Home() {
 
       {data && (
         <>
-          <Card 
-            sprite={data.sprites.other.dream_world.front_default 
-              ? data.sprites.other.dream_world.front_default 
-              : data.sprites.front_default} 
-            name={data.name} 
-            pokeId={data.id}
-            stats={data.stats} 
-            types={data.types}
-            isLoading={isLoading}
-          />
+          {isLoading 
+            ? <Spinner />
+            : <Card 
+                sprite={data.sprites.other.dream_world.front_default 
+                  ? data.sprites.other.dream_world.front_default 
+                  : data.sprites.front_default} 
+                name={data.name} 
+                pokeId={data.id}
+                stats={data.stats} 
+                types={data.types}
+                isLoading={isLoading}
+              />
+          }
         </> 
       )}
 
       <div className={styles.allResults}>
-        <Suspense fallback={<Spinner />}>
-          {pokemonsList && (
-            pokemonsList.map((pokemon) => {
-              return (
-                <LazyCards
-                  key={pokemon?.id} 
-                  sprite={pokemon?.sprites?.other?.dream_world?.front_default 
-                    ? pokemon.sprites?.other?.dream_world?.front_default 
-                    : pokemon.sprites?.front_default} 
-                  name={pokemon?.name} 
-                  pokeId={pokemon?.id}
-                  stats={pokemon?.stats} 
-                  types={pokemon?.types}
-                />
-              )
-            })
-          )}
-        </Suspense>
+        {pokemonsList?.map((pokemon) => {
+          return (
+            <Card
+              key={pokemon?.id} 
+              sprite={pokemon?.sprites?.other?.dream_world?.front_default 
+                ? pokemon.sprites?.other?.dream_world?.front_default 
+                : pokemon.sprites?.front_default} 
+              name={pokemon?.name} 
+              pokeId={pokemon?.id}
+              stats={pokemon?.stats} 
+              types={pokemon?.types}
+            />
+          )
+        })}
+
+        <button onClick={handlePrevPage}>Anterior</button>
+        <button onClick={handleNextPage}>Siguiente</button>
       </div>
     </Layout>
   )
